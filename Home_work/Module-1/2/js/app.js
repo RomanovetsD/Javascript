@@ -14,6 +14,11 @@ else if (totalPrice > credits) {
 	alert('Недостаточно средст на счету!');
 }
 
+else if (numberDroid < 0) {
+	alert('Вы ввели отрицательное количество дроидов!');
+}
+
+
 else {
     alert(`Вы купили ${numberDroid} дроидов, на счету осталось ${restCredits} кредитов!`);
 }
