@@ -6,11 +6,11 @@ while (true) {
     alert('Отменено пользователем!');
     break;
   }
-  else if (passwords.includes(input)) {
+  if (passwords.includes(input)) {
     alert('Добро пожаловать!');
     break;
   }
-  else if (input !== null) {
+  if (input !== null) {
     attemptsLeft -= 1;
     alert(`Неверный пароль, у вас осталось ${attemptsLeft} попыток!`);
   }
