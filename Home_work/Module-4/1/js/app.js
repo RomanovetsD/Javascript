@@ -31,12 +31,12 @@ const notepad = {
   },
 
   findIndexNoteById(id) {
-    for (const obj of this.notes) {
-      if (obj.id === id) {
-        return obj;
+    for (const index in this.notes) {
+      if (this.notes[index].id === id) {
+        return index;
       }
     }
-    return undefined;
+    return -1;
     /* for (const index in this.notes) {
       if (this.notes[index].id === id) {
         return index;
@@ -79,13 +79,8 @@ const notepad = {
    */
 
   updateNoteContent(id, updatedContent) {
-    for (let obj of this.notes) {
-      if (obj.id === id) {
-        return (obj = Object.assign(obj, updatedContent));
-      }
-    }
-  /*  Object.assign(this.findNoteById(id), updatedContent);
-    return this; */
+    Object.assign(this.findNoteById(id), updatedContent);
+    return this;
   },
 
   /*
@@ -252,3 +247,11 @@ console.log(
  */
 notepad.deleteNote('id-2');
 console.log('Заметки после удаления с id -2: ', notepad.getNotes());
+
+// Вызов функций для проверки
+
+/* console.assert(findIndexNoteById('id-1', this.notes) === 1, 'Error: id-1 not found in this notes'); */
+
+/*
+ * Добавляю 4 заметки и смотрим что получилось
+*/
