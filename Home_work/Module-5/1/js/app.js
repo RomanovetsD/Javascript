@@ -3,6 +3,7 @@
 const Notepad = function Notepad(notes = []) {
   this.notes = notes;
 
+
   this.getNotes = function () {
     return this.notes;
   };
@@ -14,7 +15,7 @@ const Notepad = function Notepad(notes = []) {
   };
 
   this.saveNote = function (note) {
-    return this.notes.push(note);
+    notes.push(note);
   };
 
   this.deleteNote = function (id) {

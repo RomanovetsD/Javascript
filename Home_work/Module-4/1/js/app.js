@@ -44,7 +44,7 @@ const notepad = {
      */
   },
   saveNote(note) {
-    return this.notes.push(note);
+    this.notes.push(note);
   },
   /*
    * Сохраняет заметку в массив notes
