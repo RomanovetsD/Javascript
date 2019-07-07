@@ -29,7 +29,6 @@ const notepad = {
      * Возвращает: заметку с совпавшим полем id или undefined если ничего не найдено
      */
   },
-
   findIndexNoteById(id) {
     for (const index in this.notes) {
       if (this.notes[index].id === id) {
@@ -37,12 +36,6 @@ const notepad = {
       }
     }
     return -1;
-    /* for (const index in this.notes) {
-      if (this.notes[index].id === id) {
-        return index;
-      }
-    }
-    return -1; */
     /*
      * Ищет заметку в массиве notes
      *
@@ -59,7 +52,6 @@ const notepad = {
    * Принимает: объект заметки
    * Возвращает: сохраненную заметку
    */
-
   deleteNote(id) {
     for (const obj of this.notes) {
       if (obj.id === id) {
@@ -68,21 +60,16 @@ const notepad = {
       }
     }
   },
-  /*  this.notes.splice(this.findIndexNoteById(id), 1);
-    return this;
-  */
   /*
    * Удаляет заметку по идентификатору из массива notes
    *
    * Принимает: идентификатор заметки
    * Возвращает: ничего
    */
-
   updateNoteContent(id, updatedContent) {
     Object.assign(this.findNoteById(id), updatedContent);
     return this;
   },
-
   /*
    * Обновляет контент заметки
    * updatedContent - объект с полями вида {имя: значение, имя: значение}
@@ -91,7 +78,6 @@ const notepad = {
    * Принимает: идентификатор заметки и объект, полями которого надо обновить заметку
    * Возвращает: обновленную заметку
    */
-
   updateNotePriority(id, priority) {
     for (const obj of this.notes) {
       if (obj.id === id) {
