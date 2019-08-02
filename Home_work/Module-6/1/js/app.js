@@ -17,9 +17,9 @@ class Notepad {
   };
 
   findNoteById(id) {
-    for (const note of this._notes) {
-      if (note.id === id) return note;
-    }
+    const note = this._notes.find(item => item.id === id);
+
+    return note;
   }
 
   saveNote(note) {
@@ -27,12 +27,7 @@ class Notepad {
   }
   
   deleteNote(id) {
-    for (const note of this._notes) {
-      if (note.id === id) {
-        const index = this._notes.indexOf(note);
-        this._notes.splice(index, 1);
-      }
-    }
+    this._notes = this._notes.filter(note => note.id !== id);
   }
 
   updateNoteContent(id, updatedContent) {
