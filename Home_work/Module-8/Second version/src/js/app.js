@@ -1,4 +1,4 @@
-'use strict';
+
 
 class Notepad {
   constructor(arr) {
@@ -111,7 +111,7 @@ const initialNotes = [
   },
 ];
 
-/*function create Note Button */
+/* function create Note Button */
 function createButton(action, text) {
   const button = document.createElement('button');
   button.classList.add('action');
@@ -125,13 +125,13 @@ function createButton(action, text) {
   return button;
 }
 
-/*function create Note ListItem */
+/* function create Note ListItem */
 function createListItem({
   id, title, body, priority,
 }) {
-  const li = document.createElement('li')
+  const li = document.createElement('li');
   li.classList.add('note-list__item');
-  const note = document.createElement('div')
+  const note = document.createElement('div');
   note.classList.add('note');
   note.dataset.id = id;
   li.append(note);
@@ -160,21 +160,21 @@ function createListItem({
 
   const noteSectionRight = document.createElement('section');
   noteSectionRight.classList.add('note__section');
-  
-/* Left Note section */
+
+  /* Left Note section */
   noteSectionLeft.append(createButton(NOTE_ACTIONS.DESCREASE_PRIORITY, ICON_TYPES.ARROW_DOWN));
   noteSectionLeft.append(createButton(NOTE_ACTIONS.INCREASE_PRIORITY, ICON_TYPES.ARROW_UP));
- 
+
   const noteSpan = document.createElement('span');
   noteSpan.classList.add('note__priority');
-  noteSpan.dataset.priority = `Priority: ${priority}`;
-  noteSectionLeft.append(noteSpan);
- 
- /* Right Note section */
+  noteSpan.textContent = `Priority: ${priority}`;
+  noteSectionLeft.appendChild(noteSpan);
+
+  /* Right Note section */
   noteSectionRight.append(createButton(NOTE_ACTIONS.EDIT, ICON_TYPES.EDIT));
   noteSectionRight.append(createButton(NOTE_ACTIONS.DELETE, ICON_TYPES.DELETE));
 
- /* Add footer to html document */
+  /* Add footer to html document */
   noteFooter.append(noteSectionLeft);
   noteFooter.append(noteSectionRight);
   note.append(noteFooter);
