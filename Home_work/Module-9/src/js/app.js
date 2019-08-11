@@ -1,6 +1,15 @@
-
+'use strict';
 
 class Notepad {
+
+  static generateUniqueId = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 15) +
+  Math.random()
+    .toString(36)
+    .substring(2, 15);
+
   constructor(arr) {
     this._notes = arr;
   }
@@ -15,8 +24,12 @@ class Notepad {
   }
 
   saveNote(note) {
-    this._notes.push(note);
-    return note;
+    if (note.priority) {
+      this._notes.push(note);
+    } else {
+      note.priority = PRIORITY_TYPES.LOW;
+      this._notes.push(note);
+    }
   }
 
   deleteNote(id) {
@@ -52,13 +65,11 @@ class Notepad {
   }
 
   filterNotesByQuery(query) {
-    return this._notes.filter(
-      ({ title, body }) => title.toLowerCase().includes(query.toLowerCase())
-        || body.toLowerCase().includes(query.toLowerCase()),
-    );
-  }
+    return this._notes.filter(note => note.body.toLowerCase().includes(query.toLowerCase()));
+  };
 }
 
+// Constants
 const PRIORITY_TYPES = {
   LOW: 'LOW',
   NORMAL: 'NORMAL',
@@ -78,6 +89,17 @@ const NOTE_ACTIONS = {
   INCREASE_PRIORITY: 'increase-priority',
   DECREASE_PRIORITY: 'decrease-priority',
 };
+
+// References
+const refs = {
+  list: document.querySelector('.note-list'),
+  form: document.querySelector('.note-editor'),
+  title: document.querySelector('input[name="note_title"]'),
+  body: document.querySelector('textarea[name="note_body"]'),
+  search: document.querySelector('.search-form__input')
+};
+
+
 
 
 
@@ -112,7 +134,7 @@ const initialNotes = [
   },
 ];
 
-/* function create Note Button */
+// Function 
 function createButton(action, text) {
   const button = document.createElement('button');
   button.classList.add('action');
@@ -126,7 +148,6 @@ function createButton(action, text) {
   return button;
 }
 
-/* function create Note ListItem */
 function createListItem({
   id, title, body, priority,
 }) {
@@ -183,12 +204,53 @@ function createListItem({
   return li;
 }
 
-function renderNoteList(listRef, notes) {
-  const elem = listRef.cloneNode(false);
-  elem.append(...notes.map(e => createListItem(e)));
-  listRef.replaceWith(elem);
+function addListItem (ref, note) {
+  ref.append(createListItem(note));
 }
 
+function renderNoteList(listRef, notes) {
+  listRef.innerHTML = '';
+  listRef.append(...notes.map(e => createListItem(e)));
+}
+
+function addNote(e) {
+  e.preventDefault();
+  const title = refs.title.value;
+  const body = refs.body.value;
+    if (title.length === 0 || body.length === 0) {
+    alert('Необходимо заполнить все поля!')
+    return
+  }
+  const note = {
+    id: Notepad.generateUniqueId(), title, body,
+  };
+  
+  notepad.saveNote(note);
+  e.target.reset();
+  addListItem(refs.list, note);
+}
+function deleteNote({target}) {
+  const action = target.parentElement.dataset.action;
+  if (action !== NOTE_ACTIONS.DELETE) {
+    return;
+  }
+  const parentListItem = target.closest('.note-list__item');
+  const id = parentListItem.dataset.id;
+
+  notepad.deleteNote(id);
+  parentListItem.remove();
+}
+ 
+function filteredItems(e) {
+const filterItems = notepad.filterNotesByQuery(e.target.value);
+renderNoteList(refs.list, filterItems);
+} 
+
+// Events
+refs.form.addEventListener('submit', addNote);
+refs.list.addEventListener('click', deleteNote);
+refs.search.addEventListener('input', filteredItems);
+
+
 const notepad = new Notepad(initialNotes);
-const listRef = document.querySelector('.note-list');
-renderNoteList(listRef, notepad.notes);
+renderNoteList(refs.list, notepad.notes);
