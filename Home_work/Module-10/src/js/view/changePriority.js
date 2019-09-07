@@ -8,6 +8,7 @@ function changePriority({ target }) {
   if (action !== NOTE_ACTIONS.INCREASE_PRIORITY && action !== NOTE_ACTIONS.DECREASE_PRIORITY) {
     return;
   }
+
   const noteId = target.closest('.note');
   const { id } = noteId.dataset;
   const note = notepad.findNoteById(id);

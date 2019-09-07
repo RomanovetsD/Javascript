@@ -21,11 +21,7 @@ const NOTE_ACTIONS = {
 };
 
 const refs = {
-  list: document.querySelector('.note-list'),
-  form: document.querySelector('.note-editor'),
-  title: document.querySelector('input[name="note_title"]'),
-  body: document.querySelector('textarea[name="note_body"]'),
-  search: document.querySelector('.search-form__input'),
+
 };
 
 export {
