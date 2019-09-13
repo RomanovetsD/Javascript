@@ -61,13 +61,13 @@ display:block;
 }
 
 .list-link {
-font-size: 26px;
+font-size: 20px;
 font-family: "Kaushan Script", cursive;
  display: block;
  color: #9acd32;
  cursor: pointer;
  text-decoration: none;
- margin: 5px 50px;
+ margin: 5px 30px;
  
 }
 
