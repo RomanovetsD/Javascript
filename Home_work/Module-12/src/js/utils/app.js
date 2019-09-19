@@ -2,15 +2,15 @@ import shortid from 'shortid';
 import MicroModal from 'micromodal';
 import Handlebars from 'handlebars';
 import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css'; 
+import 'notyf/notyf.min.css';
 
 
-import template from '../../template/note.hbs'
-import { NOTIFICATION_MESSAGES } from './constants';
+import template from '../../template/note.hbs';
+import { NOTIFICATION_MESSAGES , PRIORITY_TYPES, NOTE_ACTIONS } from './constants';
 import INITILAL_NOTES from '../../assets/notes.json';
 import Notepad from '../components/Notepad';
 import refs from '../utils/refs';
-import { PRIORITY_TYPES, NOTE_ACTIONS } from '../utils/constants';
+
 import { refreshList } from './view';
 import { notepad } from './model';
 
@@ -28,7 +28,7 @@ const openEditor = () => {
   MicroModal.show('note-editor-modal');
 };
 
-const { NOTE_DELETED_SUCCESS, NOTE_ADDED_SUCCESS, EDITOR_FIELDS_EMPTY,} = NOTIFICATION_MESSAGES;
+const { NOTE_DELETED_SUCCESS, NOTE_ADDED_SUCCESS, EDITOR_FIELDS_EMPTY  } = NOTIFICATION_MESSAGES;
 
 const notificationAdded = (message) => {
   const msg = message || NOTE_ADDED_SUCCESS;
@@ -118,19 +118,17 @@ function deleteData({ target }) {
 }
 
 function editData({ target }) {
-  const action = target.parentElement.dataset.action;
-  if (action !== NOTE_ACTIONS.EDIT) {
-    return;
+  if (target.nodeName !== 'I') return;
+  if (target.parentNode.dataset.action === 'edit-note') {
+    const li = target.closest('.note-list__item');
+    const { id } = li.dataset;
+    const note = notepad.findNoteById(id);
+    const { title, body } = note;
+    refs.title.value = title;
+    refs.body.value = body;
+    state.note = note;
+    openEditor();
   }
-  const parentListItem = target.closest('.note-list__item');
-  const id = parentListItem.dataset.id;
-  const note = notepad.findNoteById(id);
-  const { title, body } = note;
-  refs.title.value = title;
-  refs.body.value = body;
-  state.note = note;
-  openEditor();
-
 }
 
 function resetSearch(event) {
@@ -154,7 +152,7 @@ function filterByText(event) {
     .catch((error) => {
       console.log(error);
     });
-}*/
+} */
 
 
 function renderNoteList(listRef, note) {
@@ -167,14 +165,13 @@ function changePriority({ target }) {
   if (action !== NOTE_ACTIONS.INCREASE_PRIORITY && action !== NOTE_ACTIONS.DECREASE_PRIORITY) {
     return;
   }
-  const noteToEdit = notepad.findNoteById(target.closest(".note-list__item").dataset.id
-  );
+  const noteToEdit = notepad.findNoteById(target.closest('.note-list__item').dataset.id,);
   if (action === NOTE_ACTIONS.DECREASE_PRIORITY && noteToEdit.priority > 0) {
-    noteToEdit.priority -=1;
+    noteToEdit.priority -= 1;
     noteRefresh();
   }
   if (action === NOTE_ACTIONS.INCREASE_PRIORITY && noteToEdit.priority < 2) {
-    noteToEdit.priority +=1;
+    noteToEdit.priority += 1;
     noteRefresh();
   }
 }
