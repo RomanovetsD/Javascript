@@ -126,7 +126,7 @@ function saveData(e) {
 }
 
 
-/* -----------------  Did not work changePriority  -----------------*/
+/* -----------------  Method changePriority is vorking  -----------------*/
 
 function renderNoteList(listRef, note) {
   const listItems = note.map(item => template(item)).join('');
@@ -135,7 +135,7 @@ function renderNoteList(listRef, note) {
 
 function noteRefresh() {
   refs.list.innerHTML = '';
-  renderNoteList(refs.list, notepad.notes);
+  renderNoteList(refs.list, notepad._notes);
 }
 
 function changePriority({ target }) {
@@ -143,17 +143,18 @@ function changePriority({ target }) {
   if (action !== NOTE_ACTIONS.INCREASE_PRIORITY && action !== NOTE_ACTIONS.DECREASE_PRIORITY) {
     return;
   }
-  const note = notepad.findNoteById(target.closest('.note-list__item').dataset.id);
+  const id = target.closest('.note-list__item').dataset.id;
+  const note = notepad.findNoteById(id);
   if (action === NOTE_ACTIONS.DECREASE_PRIORITY && note.priority > 0) {
-    notepad.updateNotePriority(target.closest('.note-list__item').dataset.id, -1)
-      .then(() => noteRefresh());
+    note.priority -= 1;
+    noteRefresh();
   }
   if (action === NOTE_ACTIONS.INCREASE_PRIORITY && note.priority < 2) {
-    notepad.updateNotePriority(target.closest('.note-list__item').dataset.id, +1)
-      .then(() => noteRefresh());
+    note.priority += 1;
+    noteRefresh();
   }
 }
-// refs.list.addEventListener('click', changePriority);
+refs.list.addEventListener('click', changePriority);
 /* -----------------------------------------------------------------*/
 
 

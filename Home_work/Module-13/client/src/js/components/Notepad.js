@@ -16,11 +16,6 @@ class Notepad {
     });
   }
 
-  findNoteById(id) {
-    const note = this._notes.find(item => item.id === id);
-    return note;
-  }
-
   saveNote(note) {
     return api.saveNotes(note).then((note) => {
       this._notes.push(note);
@@ -48,6 +43,11 @@ class Notepad {
       }
     }
     return -1;
+  }
+
+  findNoteById(id) {
+    const note = this._notes.find(item => item.id === id);
+    return note;
   }
 
   updateNotePriority(id, priority) {
